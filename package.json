@@ -1,0 +1,24 @@
+{
+  "name": "new-project",
+  "version": "1.0.0",
+  "description": "A project",
+  "main": "src/js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "ricardobossan",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "browser-sync": "^2.24.5",
+    "gulp": "^3.9.1",
+    "jasmine": "^3.1.0"
+  }
+}
