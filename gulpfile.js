@@ -10,7 +10,6 @@ gulp.task('default', /*['sass:watch'],*/ () => {// if using sass, uncomment on t
 	// Reloads browser
 	gulp.watch("src/*.html").on('change', bSrc.reload);
 	gulp.watch("src/js/*.js").on('change', bSrc.reload);
-	gulp.watch('spec/spec.js').on('change', bSrc.reload);
 	gulp.watch("*.html").on('change', bSpecRunner.reload);
 	gulp.watch("js/*.js").on('change', bSpecRunner.reload);
 	gulp.watch('spec/spec.js').on('change', bSpecRunner.reload);
