@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const bSrc = require('browser-sync').create();
 const bSpecRunner = require('browser-sync').create();
+const jsdoc = require('gulp-jsdoc3');
+
 /*
 const sass = require('gulp-sass');
 const autoprefixer('gulp-autoprefixer');
@@ -28,6 +30,12 @@ gulp.task('default', /*['sass:watch'],*/ () => {// if using sass, uncomment on t
 		index: "spec/SpecRunner.html",
 		ui: false
 	});
+});
+
+// Generates documentation on the `doc` directory
+gulp.task('jsdoc', function (cb) {
+	gulp.src(['./README.md', './src/**/*.js', './spec/**/*.js'], {read: false})
+		.pipe(jsdoc(cb));
 });
 
 /*

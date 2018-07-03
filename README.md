@@ -77,9 +77,10 @@ $ npm install -g browser-sync
 
  Install locally the npm packages I'm going to use for this project (including the Gulp package), in your devDependencies:
 
-* [Gulp][4]
-* [Browsersync][5] (to create a server and reload the browser automaticaly)
-* [Jasmine][6] (tester)
+* [gulp][4]
+* [browsersync][5] (to create a server and reload the browser automaticaly)
+* [jasmine][6] (tester)
+* [gulp-jsdoc3][12] (Generates Documentation)
 
 ```
 $ npm --install --save-dev gulp browser-sync jasmine
@@ -109,11 +110,12 @@ Require the Gulp and Browsersync packages.
 const gulp = require('gulp');
 const bSrc = require('browser-sync').create();
 const bSpecRunner = require('browser-sync').create();
+const jsdoc = require('gulp-jsdoc3');
 ```
 
 Then set it's default task to watch the js files in the `src` directory:
 
-Create the `default` task, with servers for the the `index.html` the `spec/SpecRunner.html` files:
+Create the `default` task, with servers for the the `index.html` the `spec/SpecRunner.html` files, and the `jsdoc` task, for generating documentation:
 
 ```
 gulp.task('default', () => {
@@ -139,6 +141,12 @@ gulp.task('default', () => {
 		index: "spec/SpecRunner.html",
 		ui: false
 	});
+});
+
+// Generates documentation on the `doc` directory
+gulp.task('jsdoc', function (cb) {
+	gulp.src(['./README.md', './js/**/*.js', './spec/**/*.js'], {read: false})
+		.pipe(jsdoc(cb));
 });
 ```
 
@@ -225,13 +233,39 @@ It will create an `eslintrc.json` file, which will contain the configurations fo
 
 If you want to create special eslint configurations for a project, just move to that project's directory run `eslint --init`, to configure a `eslintrc.json` file there.
 
+#### Generating Documentation With Jsdoc
+
+The comments you wish jsdoc to parse should start with `/**`
+
+use [jsdoc tags][11] to display each information within your comments:
+
+```
+/**
+ * @file This file has tests for the app.js file.
+ *
+ * @author Ricardo Bossan <ricardobossan@gmail.com>
+ */
+```
+
+If you wish to generate documentation manually, for each file, the documentation will be placed on an `out` directory, which will be created on the folder where is run the commands:
+
+```
+cd <./file-path/
+jsdoc <./file-path/file-name>
+```
 
 #### Running The Build Tool
 
-* run the `default` task, to automatically reload the browser window when a js file is modified (upon save). On the command line, enter:
+Run the `default` task, to automatically reload the browser window when a js file is modified (upon save). On the command line, enter:
 
 ```
 $ gulp
+```
+
+Generate documentation for the project on the `doc` directory, on the top level directory of the project:
+
+```
+$ gulp jsdoc
 ```
 
 ======================================================================================
@@ -246,3 +280,5 @@ $ gulp
 [8]: https://docs.npmjs.com/getting-started/updating-local-packages "Update Npm Packages"
 [9]: https://github.com/ "Github"
 [10]: https://browsersync.io/ "Browsersync (Global)"
+[11]: http://usejsdoc.org/index.html#block-tags "Jsdoc Block Tags"
+[12]: https://www.npmjs.com/package/gulp-jsdoc3 "gulp-jsdoc"

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Documentation Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Documentation</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>Project: <new-project></h1><h2>How to Run the App</h2><p>Instructions for running this project.</p>
+<h2>Clone from <code>build-basic</code>?</h2><p>This Section is written with the expectation that you already have installed globally node.js, gulp, browsersync and eslint</p>
+<p>Create a new directory to be your project's repo, at your <code>home directory</code> and clone <code>build-basic</code> into it:</p>
+<pre class="prettyprint source"><code>$ mkdir &lt;new-project>
+$ git clone build-basic &lt;new-project></code></pre><p>Update and Check Outdated npm packages, by running <a href="https://docs.npmjs.com/getting-started/updating-local-packages" title="Update Npm Packages">these commands</a> on the directory where the <code>package.json</code> file is located:</p>
+<pre class="prettyprint source"><code>$ npm update
+$ npm outdated</code></pre><p>Create a new remote repository on <a href="https://github.com/" title="Github">Github</a>, then change the <new-project> project's remote repo from the <code>build-basic</code> repo to the  repo you just created on Github.</p>
+<p>To change:</p>
+<pre class="prettyprint source"><code>$ git remote set-url git remote set-url origin git@github.com:USERNAME/REPOSITORY.git</code></pre><p>Or simply unset the remote for the <new-project> project repo:</p>
+<pre class="prettyprint source"><code>$ git remote remove origin</code></pre><p>Check if the remote repo has been properly set (or unset):</p>
+<pre class="prettyprint source"><code>$ git remote -v</code></pre><p>But, if creating a new project from scratch, follow the steps described in the next section.</p>
+<h2>Building The Project With Node.js and a Building Tool</h2><h4>Node.js and Npm (Node Package Manager)</h4><p>Install <a href="https://nodejs.org/en/" title="Node.js">Node.js</a>.</p>
+<p>Install the latest version of <a href="https://www.npmjs.com/get-npm" title="Npm">npm</a> via command line:</p>
+<pre class="prettyprint source"><code>$ npm install npm@latest -g</code></pre><p>To initialize a node.js project, run this at the top-level directory of your project:</p>
+<pre class="prettyprint source"><code>$ npm init</code></pre><p>Answer the questions that pop up on the terminal, to create a basic <code>package.json</code> file.</p>
+<p>Install the task runner <a href="https://github.com/gulpjs/gulp/blob/v3.9.1/docs/getting-started.md" title="Gulp">Gulp.js</a> globally:</p>
+<pre class="prettyprint source"><code>$ npm install --global gulp-cli</code></pre><p>Install <a href="https://browsersync.io/" title="Browsersync (Global)">Browsersync</a> globally:</p>
+<pre class="prettyprint source"><code>$ npm install -g browser-sync</code></pre><p> Install locally the npm packages I'm going to use for this project (including the Gulp package), in your devDependencies:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/gulp" title="Gulp on npm">gulp</a></li>
+<li><a href="https://www.npmjs.com/package/browser-sync" title="Browsersync (Local)">browsersync</a> (to create a server and reload the browser automaticaly)</li>
+<li><a href="https://jasmine.github.io/pages/getting_started.html" title="Jasmine">jasmine</a> (tester)</li>
+<li><a href="https://www.npmjs.com/package/gulp-jsdoc3" title="gulp-jsdoc">gulp-jsdoc3</a> (Generates Documentation)</li>
+</ul>
+<pre class="prettyprint source"><code>$ npm --install --save-dev gulp browser-sync jasmine</code></pre><h4>Jasmine Configuration</h4><p>To create a <code>spec</code> directory, containing a <code>suport</code> directory, with a <code>jasmine.json</code> file inside, for general configuration purporses, run at the top level directory of your project:</p>
+<pre class="prettyprint source"><code>$ node node_modules/jasmine/bin/jasmine init</code></pre><p>Create a <code>spec.js</code> file, in the <code>spec</code> folder, at the top level directory of your project, for your test suites.</p>
+<p>Create a <code>SpecRunner.html</code>, in the <code>spec</code> folder, at the top level directory of your project, to display the test results on your browser.</p>
+<h4>Gulp Configuration</h4><p>Create a <code>gulpfile.js</code> at the top level of your project directory, to require packages and configure tasks.</p>
+<p>Open the <code>gulpfile.js</code> in your IDE.</p>
+<p>Require the Gulp and Browsersync packages.</p>
+<pre class="prettyprint source"><code>const gulp = require('gulp');
+const bSrc = require('browser-sync').create();
+const bSpecRunner = require('browser-sync').create();
+const jsdoc = require('gulp-jsdoc3');</code></pre><p>Then set it's default task to watch the js files in the <code>src</code> directory:</p>
+<p>Create the <code>default</code> task, with servers for the the <code>index.html</code> the <code>spec/SpecRunner.html</code> files, and the <code>jsdoc</code> task, for generating documentation:</p>
+<pre class="prettyprint source"><code>gulp.task('default', () => {
+    // Reloads browser
+    gulp.watch(&quot;*.html&quot;).on('change', bSrc.reload);
+    gulp.watch(&quot;js/*.js&quot;).on('change', bSrc.reload);
+    gulp.watch('spec/spec.js').on('change', bSrc.reload);
+    gulp.watch(&quot;*.html&quot;).on('change', bSpecRunner.reload);
+    gulp.watch(&quot;js/*.js&quot;).on('change', bSpecRunner.reload);
+    gulp.watch('spec/spec.js').on('change', bSpecRunner.reload);
+
+    // Servers
+    bSrc.init({
+        server: &quot;./&quot;,
+        port: 3000,
+        index: &quot;index.html&quot;,
+        ui: false
+
+    });
+    bSpecRunner.init({
+        server: &quot;./&quot;,
+        port: 8080,
+        index: &quot;spec/SpecRunner.html&quot;,
+        ui: false
+    });
+});
+
+// Generates documentation on the `doc` directory
+gulp.task('jsdoc', function (cb) {
+    gulp.src(['./README.md', './js/**/*.js', './spec/**/*.js'], {read: false})
+        .pipe(jsdoc(cb));
+});</code></pre><p>If you want to creat a <code>dist</code> task, for copying all src files to a <code>dist</code> directory upon project completion:</p>
+<pre class="prettyprint source"><code>// copies all files from the `src` directory, as well as the README.md file, to a `dist` folder
+gulp.task('dist', function() {
+    gulp.src(['./src/**/*','./*.md'])
+        .pipe(gulp.dest('./dist'));
+});
+</code></pre><p>If you want to use SASS:</p>
+<p>Run on terminal:</p>
+<pre class="prettyprint source"><code>$ npm install --save-dev gulp-sass gulp-autoprefixer</code></pre><p>And modify the <code>gulpfile.js</code></p>
+<pre class="prettyprint source"><code>const gulp = require('gulp');
+const bSrc = require('browser-sync').create();
+const bSpecRunner = require('browser-sync').create();
+const sass = require('gulp-sass');
+const autoprefixer('gulp-autoprefixer');
+
+//If uses sass:
+gulp.task('sass', function () {
+    return gulp.src('./sass/**/*.scss')
+        .pipe(sass.sync().on('error', sass.logError))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions']
+        }))
+        .pipe(gulp.dest('./css'));
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('./sass/**/*.scss', ['sass']);
+});</code></pre><p>Also, modify the first line of the default task, adding it the task 'sass:watch':</p>
+<pre class="prettyprint source"><code>gulp.task('default', ['sass:watch'], () => {</code></pre><h4>Install globally the <a href="https://www.npmjs.com/package/eslint" title="Eslint">Eslint</a> linter:</h4><pre class="prettyprint source"><code>$ npm install -g eslint</code></pre><p>Then move to the <code>home directory</code> for your projects and run this command:</p>
+<pre class="prettyprint source"><code>$ eslint --init</code></pre><p>Add the enviroments you want to lint. I use this configuration on the section <code>&quot;env&quot;</code>, of your <code>.eslintrc.json</code> file, on the <code>home directory</code>, or on the top level of you project directory</p>
+<p>I use this configuration on my <code>home directory</code>s <code>.eslintrc.json</code> file:</p>
+<pre class="prettyprint source"><code>{
+    &quot;env&quot;: {
+        &quot;browser&quot;: true,
+        &quot;es6&quot;: true,
+        &quot;jasmine&quot;: true,
+        &quot;amd&quot;: true,
+        &quot;jquery&quot;: true,
+        &quot;node&quot;: true
+    },
+}</code></pre><p>It will create an <code>eslintrc.json</code> file, which will contain the configurations for all your projects located at the <code>home directory</code>.</p>
+<p>If you want to create special eslint configurations for a project, just move to that project's directory run <code>eslint --init</code>, to configure a <code>eslintrc.json</code> file there.</p>
+<h4>Generating Documentation With Jsdoc</h4><p>The comments you wish jsdoc to parse should start with <code>/**</code></p>
+<p>use <a href="http://usejsdoc.org/index.html#block-tags" title="Jsdoc Block Tags">jsdoc tags</a> to display each information within your comments:</p>
+<pre class="prettyprint source"><code>/**
+ * @file This file has tests for the app.js file.
+ *
+ * @author Ricardo Bossan &lt;ricardobossan@gmail.com>
+ */</code></pre><p>If you wish to generate documentation manually, for each file, the documentation will be placed on an <code>out</code> directory, which will be created on the folder where is run the commands:</p>
+<pre class="prettyprint source"><code>cd &lt;./file-path/
+jsdoc &lt;./file-path/file-name></code></pre><h4>Running The Build Tool</h4><p>Run the <code>default</code> task, to automatically reload the browser window when a js file is modified (upon save). On the command line, enter:</p>
+<pre class="prettyprint source"><code>$ gulp</code></pre><p>Generate documentation for the project on the <code>doc</code> directory, on the top level directory of the project:</p>
+<pre class="prettyprint source"><code>$ gulp jsdoc</code></pre><p>======================================================================================</p></article>
+    </section>
+
+
+
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        spec/spec.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>This file has tests for the app.js file.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li><a href="mailto:ricardobossan@gmail.com">Ricardo Bossan</a></li>
+			</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+	<dt class="tag-todo method-doc-label method-doc-details-label">To Do:</dt>
+	<dd class="tag-todo">
+		<ul>
+			<li>do something.</li>
+			</ul>
+	</dd>
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on July 3rd 2018, 6:14:58 am
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
