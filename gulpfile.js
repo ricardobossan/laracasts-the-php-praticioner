@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const bSrc = require('browser-sync').create();
 const bSpecRunner = require('browser-sync').create();
+const bDocumentation = require('browser-sync').create();
 const jsdoc = require('gulp-jsdoc3');
 
 /*
@@ -8,17 +9,26 @@ const sass = require('gulp-sass');
 const autoprefixer('gulp-autoprefixer');
 */
 
-gulp.task('default', /*['sass:watch'],*/ () => {// if using sass, uncomment on this line
+gulp.task('default', ['jsdoc'/*, 'sass:watch'*/], () => {// if using sass, uncomment on this line
 	// Reloads browser
 	gulp.watch("src/*.html").on('change', bSrc.reload);
 	gulp.watch("src/js/*.js").on('change', bSrc.reload);
 	gulp.watch("*.html").on('change', bSpecRunner.reload);
 	gulp.watch("js/*.js").on('change', bSpecRunner.reload);
 	gulp.watch('spec/spec.js').on('change', bSpecRunner.reload);
+	gulp.watch("src/**/*.js").on('change', bDocumentation.reload);
+	gulp.watch('spec/spec.js').on('change', bDocumentation.reload);
+
+	/** @tutorial https://scotch.io/tutorials/prevent-errors-from-crashing-gulp-watch*/
+	// when saving a watched file, the `jsdoc` task takes needs a second save, after a few seconds, to update the documentation
+	gulp.watch("js/*.js", ['jsdoc']);
+	gulp.watch('spec/spec.js', ['jsdoc']);
+
+
 
 	// Servers
 	bSrc.init({
-		server: "./",
+		server: "./src",
 		port: 3000,
 		index: "index.html",
 		ui: false
@@ -28,6 +38,12 @@ gulp.task('default', /*['sass:watch'],*/ () => {// if using sass, uncomment on t
 		server: "./",
 		port: 8080,
 		index: "spec/SpecRunner.html",
+		ui: false
+	});
+	bDocumentation.init({
+		server: "./docs/gen",
+		port: 8080,
+		index: "index.html",
 		ui: false
 	});
 });
