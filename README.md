@@ -1,20 +1,12 @@
-<!--
-@todo:
-*
-* Create a new `build basic" project, with build for src directory, gulp, browsersync, jasmine and the README.md file, modifying it with [instructions](https://docs.npmjs.com/getting-started/updating-local-packages) for updating your npm packages everytime the `build basic` project is cloned, for a new basic project, and for running the `dist` task, and also modify the gulpfile.js, with the `dist` task.
-	* Fill instructions for the `Change or unset the remote repository`, in `Section  Clone from \`build-basic\`?`
-	* create a remote repo at https://github.com
-	* set the upstream origin branch to the url created on github
-	* run add and commit changes in git
-	* push commited changes
--->
-# Project: Cat Clicker
+# Project: <new-project>
 
 ## How to Run the App
 
 Instructions for running this project.
 
 ## Clone from `build-basic`?
+
+This Section is written with the expectation that you already have installed globally node.js, gulp, browsersync and eslint
 
 Create a new directory to be your project's repo, at your `home directory` and clone `build-basic` into it:
 
@@ -30,7 +22,7 @@ $ npm update
 $ npm outdated
 ```
 
-Create a new remote repository on [Github][9], then change the `new-project`'s remote repo from the `build-basic` repo to the  repo you just created on Github.
+Create a new remote repository on [Github][9], then change the <new-project> project's remote repo from the `build-basic` repo to the  repo you just created on Github.
 
 To change:
 
@@ -38,10 +30,16 @@ To change:
 $ git remote set-url git remote set-url origin git@github.com:USERNAME/REPOSITORY.git
 ```
 
-Or simply unset the remote for the `new-project` repo:
+Or simply unset the remote for the <new-project> project repo:
 
 ```
 $ git remote remove origin
+```
+
+Check if the remote repo has been properly set (or unset):
+
+```
+$ git remote -v
 ```
 
 But, if creating a new project from scratch, follow the steps described in the next section.
@@ -70,6 +68,13 @@ Install the task runner [Gulp.js][3] globally:
 ```
 $ npm install --global gulp-cli
 ```
+
+Install [Browsersync][10] globally:
+
+```
+$ npm install -g browser-sync
+```
+
  Install locally the npm packages I'm going to use for this project (including the Gulp package), in your devDependencies:
 
 * [Gulp][4]
@@ -137,6 +142,55 @@ gulp.task('default', () => {
 });
 ```
 
+If you want to creat a `dist` task, for copying all src files to a `dist` directory upon project completion:
+
+```
+// copies all files from the `src` directory, as well as the README.md file, to a `dist` folder
+gulp.task('dist', function() {
+	gulp.src(['./src/**/*','./*.md'])
+		.pipe(gulp.dest('./dist'));
+});
+
+```
+
+If you want to use SASS:
+
+Run on terminal:
+
+```
+$ npm install --save-dev gulp-sass gulp-autoprefixer
+```
+
+And modify the `gulpfile.js`
+
+```
+const gulp = require('gulp');
+const bSrc = require('browser-sync').create();
+const bSpecRunner = require('browser-sync').create();
+const sass = require('gulp-sass');
+const autoprefixer('gulp-autoprefixer');
+
+//If uses sass:
+gulp.task('sass', function () {
+	return gulp.src('./sass/**/*.scss')
+		.pipe(sass.sync().on('error', sass.logError))
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions']
+		}))
+		.pipe(gulp.dest('./css'));
+});
+
+gulp.task('sass:watch', function () {
+	gulp.watch('./sass/**/*.scss', ['sass']);
+});
+```
+
+Also, modify the first line of the default task, adding it the task 'sass:watch':
+
+```
+gulp.task('default', ['sass:watch'], () => {
+```
+
 #### Install globally the [Eslint][7] linter:
 
 ```
@@ -180,12 +234,15 @@ If you want to create special eslint configurations for a project, just move to 
 $ gulp
 ```
 
+======================================================================================
+
 [1]: https://nodejs.org/en/ "Node.js"
 [2]: https://www.npmjs.com/get-npm "Npm"
 [3]: https://github.com/gulpjs/gulp/blob/v3.9.1/docs/getting-started.md "Gulp"
 [4]: https://www.npmjs.com/package/gulp "Gulp on npm"
-[5]: https://www.npmjs.com/package/browser-sync "Browsersync"
+[5]: https://www.npmjs.com/package/browser-sync "Browsersync (Local)"
 [6]: https://jasmine.github.io/pages/getting_started.html "Jasmine"
 [7]: https://www.npmjs.com/package/eslint "Eslint"
 [8]: https://docs.npmjs.com/getting-started/updating-local-packages "Update Npm Packages"
 [9]: https://github.com/ "Github"
+[10]: https://browsersync.io/ "Browsersync (Global)"
