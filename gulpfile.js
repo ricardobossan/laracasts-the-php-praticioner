@@ -37,7 +37,7 @@ gulp.task('default', ['jsdoc'/*, 'sass:watch'*/], () => {// if using sass, uncom
 	bSpecRunner.init({
 		server: "./",
 		port: 8080,
-		index: "spec/SpecRunner.html",
+		index: "SpecRunner.html",
 		ui: false
 	});
 	bDocumentation.init({
