@@ -7,11 +7,18 @@
 </head>
 <body>
 	<ul>
-		<?php foreach($task as $specification => $value) : ?>
-			<li>
-				<strong><?= ucwords($specification); ?></strong> <?= $value ?>
-			</li>
-		<?php endforeach; ?>
-	 </ul>
+		<li>
+			<strong>Name: </strong><?= $task['title']; ?>
+		</li>
+		<li>
+			<strong>Due Date: </strong><?= $task['due']; ?>
+		</li>
+		<li>
+			<strong>Personal Responsible: </strong><?= $task['assigned_to']; ?>
+		</li>
+		<li>
+			<strong>Status: </strong><?= $task['completed'] ? 'Complete' : 'Incomplete'; ?>
+		</li>
+	</ul>
 </body>
 </html>
