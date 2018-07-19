@@ -7,8 +7,8 @@
 </head>
 <body>
 	<ul>
-		<?php foreach($task as $specification => $value) : ?>
-			<li><strong><?= $specification; ?></strong> <?= $value ?></li>
+		<?php foreach($person as $feature => $value) : ?>
+			<li><strong><?= $feature; ?></strong> <?= $value ?></li>
 		<?php endforeach; ?>
 	 </ul>
 </body>

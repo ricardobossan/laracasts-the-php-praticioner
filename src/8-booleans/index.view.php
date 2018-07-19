@@ -8,7 +8,9 @@
 <body>
 	<ul>
 		<?php foreach($task as $specification => $value) : ?>
-			<li><strong><?= $specification; ?></strong> <?= $value ?></li>
+			<li>
+				<strong><?= ucwords($specification); ?></strong> <?= $value ?>
+			</li>
 		<?php endforeach; ?>
 	 </ul>
 </body>

@@ -1,14 +1,19 @@
 <?php
 
-$task = [
-	'title' => 'Learn PHP, for job interview at Brasil Game Show',
-	'assigned_to' => 'Ricardo',
-	'due' => 'ASAP',
-	'completed' => false // if you used the string 'false', it would be a `truthy` value, and wouldn't serve the key/values point here
+$person = [
+	'age' => 31,
+	'hair' => 'brown',
+	'career' => 'web developer'
 ];
+
+$person['name'] = 'Jeffrey';
+
+echo '<pre>';
+
+var_dump($person);
+
+echo '</pre>';
 
 require 'index.view.php';
 
-// To stop reading code
-// unecessary at this point, but I'm saving it here so I remember learning it
 die();
