@@ -30,7 +30,7 @@ class Connection
 		 */
 		try {
 			/**
-			 * @desc Instance of the 'Php Data Objects' - PDO class. Offers and interface to connects to your databases
+			 * Instance of the 'Php Data Objects' - PDO class. Offers and interface to connects to your databases
 			 * @instance
 			 * @arg {string} DSN - Connection string. Declares what kind of database are you using (SQLite, mySQL, etc.).
 			 */
