@@ -7,7 +7,6 @@
 </head>
 <body>
 	<header>
-
 		<ul>
 			<?php foreach($tasks as $task) : ?>
 				<li>

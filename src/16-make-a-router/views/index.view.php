@@ -6,8 +6,14 @@
 	<style>header{background:#e3e3e3;padding:2em;text-align:justify;}</style>
 </head>
 <body>
+	<nav>
+		<ul>
+			<li><a href="about.php">About Us</a></li>
+			<li><a href="contact.php">Contact Us</a></li>
+		</ul>
+	</nav>
 	<header>
-
+	<h1>My Tasks</h1>
 		<ul>
 			<?php foreach($tasks as $task) : ?>
 				<li>
@@ -19,7 +25,6 @@
 				</li>
 			<?php endforeach; ?>
 		</ul>
-
 	</header>
 </body>
 </html>
