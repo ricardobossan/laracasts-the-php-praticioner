@@ -4,9 +4,10 @@
  * @file Builds up our QueryBuilder
  */
 
+$config = require 'config.php';
 require 'database/connection.php';
 require 'database/QueryBuilder.php';
 
 return new QueryBuilder(
-	Connection::make()
+	Connection::make($config['database'])
 );

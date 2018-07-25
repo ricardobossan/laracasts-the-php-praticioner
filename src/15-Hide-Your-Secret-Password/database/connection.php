@@ -23,18 +23,23 @@ class Connection
 	 *
 	 * @function
 	 */
-	public static function make()
+	public static function make($config)
 	{
 		/**
 		 * trow exception if an error occurs. It usually is automatically done behind the scenes by the CMS or a framework, but it's still valueble to underestand the basic process.
 		 */
 		try {
 			/**
-			 * Instance of the 'Php Data Objects' - PDO class. Offers and interface to connects to your databases
+			 * Instance of the 'Php Data Objects' - PDO class. Offers an interface to connect to your databases
 			 * @instance
-			 * @arg {string} DSN - Connection string. Declares what kind of database are you using (SQLite, mySQL, etc.).
+			 * @arg {string} DSN - Connection string. Declares what kind of database you are using (SQLite, mySQL, etc.).
 			 */
-			return new PDO('mysql:host=127.0.0.1;dbname=mytodo', 'root', '');
+			return new PDO(
+				$config['connection'].';dbname='.$config['name'],
+				$config['username'],
+				$config['password'],
+				$config['options']
+			);
 		} catch (PDOException $e) {
 			// $e is an object, and getMessage() is one of it's methods. It displays what happned.
 			die($e->getMessage());
