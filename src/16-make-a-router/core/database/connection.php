@@ -22,6 +22,8 @@ class Connection
 	 * but without actually instantiating it
 	 *
 	 * @function
+	 * @memberof Connection
+	 * @static
 	 */
 	public static function make($config)
 	{
