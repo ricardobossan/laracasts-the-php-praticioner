@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<style>header{background:#e3e3e3;padding:2em;text-align:justify;}</style>
-</head>
-<body>
-	<?php require('partials/nav.php'); ?>
+<?php require('partials/head.php'); ?>
 	<header>
 	<h1>My Tasks</h1>
 		<ul>
@@ -21,5 +13,4 @@
 			<?php endforeach; ?>
 		</ul>
 	</header>
-</body>
-</html>
+<?php require('partials/footer.php'); ?>
