@@ -6,6 +6,6 @@
 	<style>header{background:#e3e3e3;padding:2em;text-align:justify;}</style>
 </head>
 <body>
-	<h1>Our Culture</h1>
+	<h1>Our Culture at <?= $name ?></h1>
 </body>
 </html>
