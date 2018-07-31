@@ -1,8 +1,7 @@
 <?php
 
 /**
- * @file THis file will be home the Connection class and for anything related to connecting to my database.
- * @todo see if I can use jsdocs for php files.
+ * @file This file will be home the Connection class and for anything related to connecting to my database.
  */
 
 /**
