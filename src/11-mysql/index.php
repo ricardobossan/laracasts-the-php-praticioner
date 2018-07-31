@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 echo '<pre>';
 echo 'SETTING UP MYSQL ON THE COMMAND LINE:';
@@ -12,18 +12,19 @@ echo 'show databases
 <br>';
 echo 'use mytodo
 <br>';
-echo 'create table todos (description text, completed boolean)
+/*echo 'create table todos (description text, completed boolean)
 <br>';
 echo 'show tables
 <br>';
-echo 'description todos
+echo 'describe todos
 <br>';
-echo 'drop table todos
+*/echo 'drop table todos
 <br>';
 echo 'show tables
 <br>';
 echo 'create table todos (id integer PRIMARY KEY AUTO_INCREMENT, description text NOT NULL
-<br>, completed boolean)';
+completed boolean)
+<br>';
 echo 'show tables
 <br>';
 echo 'describe todos
