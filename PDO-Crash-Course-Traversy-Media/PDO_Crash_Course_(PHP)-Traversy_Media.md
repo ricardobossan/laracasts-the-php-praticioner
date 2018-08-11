@@ -94,7 +94,9 @@ Describes the driver, type of database (MySql), the host, database name
 			}
 			```
 
-
+			<!-- https://dev.mysql.com/doc/refman/8.0/en/insert.html -->
+			* Insert data into database table, in shell:
+			``insert into posts (title, body, author, is_published, created_at) values("Post One", "This is post One", "Brad", 1, CURRENT_TIMESTAMP),("Post Two", "This is post Two", "John", 1, CURRENT_TIMESTAMP);``
 
 
 ### [][#]
