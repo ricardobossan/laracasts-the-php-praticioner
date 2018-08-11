@@ -56,7 +56,46 @@
 	* [XAMPP Apache + mARIAdb + PHP + Perl][15]: Gives you a complete local enviroment within Apache Server. Cross platform.
 	* or MAMP
 	* [Check your php.ini file and uncomment the database your using, in the list, by removing the semicolon (;) in front of it's name][16]
-	*
+
+* [Create a Database][17]
+	* Open the shell, executing as admin, and:
+		* **Connect to MySQL**: ``mysql -u <user> -p <password>`` _(I connected to the root user, so I didn't have to define a password)_
+		* **Create a Database**: ``create database <db_name>;`` _(db_name: pdoposts)_
+		* **Create a table**: ``create table <table_name> (id integer PRIMARY KEY AUTO_INCREMENT, title VARCHAR (255), body TEXT, author VARCHAR (255), is_published BOOLEAN DEFAULT true, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);`` _(table_name: posts)_
+
+	* Open the `index.php` file:
+		* **Set the Variables**:
+
+			```
+			<?php
+			$host = 'localhost';
+			$user = 'root';
+			$password = '';
+			$dbname = 'pdoposts';
+			```
+
+		* **Set DSN (Data Source Name)**: String that has an associated data structure to describe a connection to a data source.
+Describes the driver, type of database (MySql), the host, database name
+
+			* ``$dsn = 'mysql:host='. $host .';dbname='. $dbname;``
+
+		* **Create a PDO instance**
+
+			* ``$pdo = new PDO($dsn, $user, $password);``
+
+		* **PDO QUERY**
+
+			```
+			$stmt = $pdo->query('SELECT * FROM posts');
+
+			<!-- [PDO:FETCH_ASSOC](http://php.net/manual/en/pdostatement.fetch.php) -->
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				echo $row['title'] . '<br>';
+			}
+			```
+
+
+
 
 ### [][#]
 
@@ -89,4 +128,5 @@
 [14]:https://youtu.be/kEW6f7Pilc4?t=339
 [15]:https://youtu.be/kEW6f7Pilc4?t=345
 [16]:https://youtu.be/kEW6f7Pilc4?t=412
-[17]:
+[17]:https://youtu.be/kEW6f7Pilc4?t=483
+[18]:

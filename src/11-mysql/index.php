@@ -4,6 +4,7 @@ echo '<pre>';
 echo 'SETTING UP MYSQL ON THE COMMAND LINE:';
 echo '</pre>';
 // log in with the root user name. For root user, generaly there's no password.
+// chose the user before you connect to mysql. I found that, once connected, you cannot switch to another user. You have to `exit` mysql and connect again with the other user;
 echo 'mysql -u root';
 // in general, your database correspondes to yoru website. 1 site, 1 database.
 echo 'create database mytodo
