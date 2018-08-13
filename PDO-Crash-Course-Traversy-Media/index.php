@@ -41,3 +41,49 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 			echo $row->title . '<br>';
 		}
 	*/
+
+		# PREPARED STATEMENTS (prepare & execute)
+
+		// UNSAFE
+ 		// $sql = "SELECT * FROM posts WHERE author = '$author'";
+
+ 		// FETCH MULTIPLE POSTS
+
+ 		// User Input
+ 		$author = 'Brad';
+ 		$is_published = true;
+ 		$id = 1;
+
+/*
+ 		// Positional Params
+ 		$sql = 'SELECT * FROM posts WHERE author = ?';
+ 		$stmt = $pdo->prepare($sql);
+ 		$stmt->execute([$author]);
+ 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+ 		$posts = $stmt->fetchAll();
+*/
+
+/*
+ 		// Named Params
+ 		$sql = 'SELECT * FROM posts WHERE author = :author && is_published = :is_published';
+ 		$stmt = $pdo->prepare($sql);
+ 		$stmt->execute(['author' => $author, 'is_published' => $is_published]);
+ 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+ 		$posts = $stmt->fetchAll();
+*/
+/*
+ 		//var_dump($posts);
+		foreach($posts as $post){
+			echo $post->title . "<br>";
+		}
+*/
+
+		// FETCH SINGLE POST
+
+ 		$sql = 'SELECT * FROM posts WHERE id = :id';
+ 		$stmt = $pdo->prepare($sql);
+ 		$stmt->execute(['id' => $id]);
+ 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+ 		$post = $stmt->fetch();
+
+ 		echo $post->body;

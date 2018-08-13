@@ -57,51 +57,140 @@
 	* or MAMP
 	* [Check your php.ini file and uncomment the database your using, in the list, by removing the semicolon (;) in front of it's name][16]
 
-* [Create a Database][17]
-	* Open the shell, executing as admin, and:
-		* **Connect to MySQL**: ``mysql -u <user> -p <password>`` _(I connected to the root user, so I didn't have to define a password)_
-		* **Create a Database**: ``create database <db_name>;`` _(db_name: pdoposts)_
-		* **Create a table**: ``create table <table_name> (id integer PRIMARY KEY AUTO_INCREMENT, title VARCHAR (255), body TEXT, author VARCHAR (255), is_published BOOLEAN DEFAULT true, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);`` _(table_name: posts)_
+### [Create a Database][17]
 
-	* Open the `index.php` file:
-		* **Set the Variables**:
+* Open the shell, executing as admin, and:
+	* **Connect to MySQL**: ``mysql -u <user> -p <password>`` _(I connected to the root user, so I didn't have to define a password)_
+	* **Create a Database**: ``create database <db_name>;`` _(db_name: pdoposts)_
+	* **Create a table**: ``create table <table_name> (id integer PRIMARY KEY AUTO_INCREMENT, title VARCHAR (255), body TEXT, author VARCHAR (255), is_published BOOLEAN DEFAULT true, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);`` _(table_name: posts)_
 
-			```
-			<?php
-			$host = 'localhost';
-			$user = 'root';
-			$password = '';
-			$dbname = 'pdoposts';
-			```
+* Open the `index.php` file:
+	* **Set the Variables**:
 
-		* **Set DSN (Data Source Name)**: String that has an associated data structure to describe a connection to a data source.
-Describes the driver, type of database (MySql), the host, database name
+		```
+		<?php
+		$host = 'localhost';
+		$user = 'root';
+		$password = '';
+		$dbname = 'pdoposts';
+		```
 
-			* ``$dsn = 'mysql:host='. $host .';dbname='. $dbname;``
+### [Set DSN (Data Source Name)][18]
 
-		* **Create a PDO instance**
+* **DSN**: String that has an associated data structure to describe a connection to a data source. Describes the driver, type of database (MySql), the host, database name
 
-			* ``$pdo = new PDO($dsn, $user, $password);``
+	``$dsn = 'mysql:host='. $host .';dbname='. $dbname;``
 
-		* **PDO QUERY**
+### [Create a PDO instance][19]
 
-			```
-			$stmt = $pdo->query('SELECT * FROM posts');
+``$pdo = new PDO($dsn, $user, $password);``
 
-			<!-- [PDO:FETCH_ASSOC](http://php.net/manual/en/pdostatement.fetch.php) -->
-			while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-				echo $row['title'] . '<br>';
-			}
-			```
+### [PDO QUERY][20]
 
-			<!-- https://dev.mysql.com/doc/refman/8.0/en/insert.html -->
-			* Insert data into database table, in shell:
-			``insert into posts (title, body, author, is_published, created_at) values("Post One", "This is post One", "Brad", 1, CURRENT_TIMESTAMP),("Post Two", "This is post Two", "John", 1, CURRENT_TIMESTAMP);``
+```
+$stmt = $pdo->query('SELECT * FROM posts');
+// [PDO:FETCH_ASSOC](http://php.net/manual/en/pdostatement.fetch.php)
+while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	echo $row['title'] . '<br>';
+}
+```
 
+* Insert data into database table, in shell:
+```
+// https://dev.mysql.com/doc/refman/8.0/en/insert.html
+insert into posts (title, body, author, is_published, created_at) values("Post One", "This is post One", "Brad", 1, CURRENT_TIMESTAMP), ("Post Two", "This is post Two", "John", 1, CURRENT_TIMESTAMP);
+```
 
-### [][#]
+* Methods for fetching according to the data type (_Associative Array_, _Object_ and _Default: Object_)
 
-* ****
+	* To fetch as an associative array data type: [PDO:FETCH_ASSOC](http://php.net/manual/en/pdostatement.fetch.php)
+
+	```
+	while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+		echo $row['title'] . '<br>';
+	}
+	```
+
+	* To fetch as an object data type: [PDO:FETCH_OBJ](http://php.net/manual/en/pdostatement.fetch.php)
+
+	```
+	while($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+		echo $row->title . '<br>';
+	}
+	```
+
+	* To fetch the default data type (object):
+
+	```
+	while($row = $stmt->fetch()){
+		echo $row->title . '<br>';
+	}
+	```
+
+### [**PREPARED STATEMENT** (Prepare & Execute)](https://youtu.be/kEW6f7Pilc4?t=1189)
+[_Documentation_](http://php.net/manual/en/pdo.prepare.php)
+
+* **UNSAFE**: This makes the database vulnerable because, as there's no separation between the _`instructions`_ and the _`actual data`_, data can be inserted directly into the database, through a `<form>`, for example.
+
+	```
+	// $sql will hold instructions
+	$sql = "SELECT * FROM posts WHERE author = '$author'";
+	```
+
+* **FETCH MULTIPLE POSTS**
+	```
+	// User Input
+	$author = 'John';
+	```
+
+	* **Positional Params (_`?`_)**: Each _`?`_ should be placed in order, according to the arguments passed in, and vice-versa.
+
+		```
+		// `$sql` will hold the instructions
+		$sql = 'SELECT * FROM posts WHERE author = ?';
+		// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+		$stmt = $pdo->prepare($sql);
+		// `execute` will hold the _`actual data`_, from the database
+		$stmt->execute([$author]); // here, the named parameters are set, to receive the database arguments
+		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+		$posts = $stmt->fetchAll();
+		```
+
+	* **Named Params (_`:named_param`_)**
+
+		```
+		// `$sql` will hold the instructions
+		$sql = 'SELECT * FROM posts WHERE author = :author';
+		// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+		$stmt = $pdo->prepare($sql);
+		// `execute` will hold the _`actual data`_, from the database
+		$stmt->execute(['author' => $author, 'is_published' => $is_published]); // here, the named parameters are set, to receive the database arguments
+		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+		$posts = $stmt->fetchAll();
+		```
+
+	* Output results:
+
+		```
+		//var_dump($posts);
+		foreach($posts as $post){
+			echo $post->title . "<br>";
+		}
+		```
+
+* [**FETCH SINGLE POST**][21]
+
+	```
+	// `$sql` will hold the instructions
+	$sql = 'SELECT * FROM posts WHERE id = :id';
+	// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['id' => $id]);
+	// No need to passa a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+	$post = $stmt->fetch();
+	echo $post->body;
+ 	```
+
 ### [][#]
 
 * ****
@@ -131,4 +220,36 @@ Describes the driver, type of database (MySql), the host, database name
 [15]:https://youtu.be/kEW6f7Pilc4?t=345
 [16]:https://youtu.be/kEW6f7Pilc4?t=412
 [17]:https://youtu.be/kEW6f7Pilc4?t=483
-[18]:
+[18]:https://youtu.be/kEW6f7Pilc4?t=705
+[19]:https://youtu.be/kEW6f7Pilc4?t=785
+[20]:https://youtu.be/kEW6f7Pilc4?t=817
+[21]:https://youtu.be/kEW6f7Pilc4?t=1718
+[22]:
+[23]:
+[24]:
+[25]:
+[26]:
+[27]:
+[28]:
+[29]:
+[30]:
+[31]:
+[32]:
+[33]:
+[34]:
+[35]:
+[36]:
+[37]:
+[38]:
+[39]:
+[40]:
+[41]:
+[42]:
+[43]:
+[44]:
+[45]:
+[46]:
+[47]:
+[48]:
+[49]:
+[50]:
