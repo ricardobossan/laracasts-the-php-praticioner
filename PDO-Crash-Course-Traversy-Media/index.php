@@ -77,7 +77,7 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 			echo $post->title . "<br>";
 		}
 */
-
+/*
 		// FETCH SINGLE POST
 
  		$sql = 'SELECT * FROM posts WHERE id = :id';
@@ -86,4 +86,52 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
  		$post = $stmt->fetch();
 
- 		echo $post->body;
+ 		echo "<h1>" . $post->title . "</h1>";
+ 		echo "<p>" . $post->body . "</p>";
+*/
+/*
+		// GET ROW COUNT
+
+ 		$stmt = $pdo->prepare('SELECT * FROM posts WHERE author = ?');
+ 		$stmt->execute([$author]);
+ 		// Method for an executed pdo instance..
+ 		$postCount = $stmt->rowCount();
+
+		echo $postCount;
+*/
+/*
+// INSERT DATA
+
+$title = 'Post Five';
+$body = 'This is post five';
+$author = 'Kevin';
+
+$sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['title' => $title, 'body' => $body, 'author' => $author]);
+echo 'Post Added';
+*/
+/*
+// UPDATE DATA
+
+$id = 1;
+$body = 'This is the updated post';
+
+$sql = 'UPDATE posts SET body = :body WHERE id = :id';
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['body' => $body, 'id' => $id]);
+echo 'Post Updated';
+*/
+/*
+// DELETE DATA
+
+$id = 3;
+
+$sql = 'DELETE FROM posts WHERE id = :id';
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['id' => $id]);
+echo 'Post Deleted';
+*/
+
+// SEARCH DATA
+

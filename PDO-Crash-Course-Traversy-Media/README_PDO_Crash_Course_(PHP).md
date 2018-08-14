@@ -96,10 +96,11 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 ```
 
 * Insert data into database table, in shell:
-```
-// https://dev.mysql.com/doc/refman/8.0/en/insert.html
-insert into posts (title, body, author, is_published, created_at) values("Post One", "This is post One", "Brad", 1, CURRENT_TIMESTAMP), ("Post Two", "This is post Two", "John", 1, CURRENT_TIMESTAMP);
-```
+
+	```
+	// https://dev.mysql.com/doc/refman/8.0/en/insert.html
+	insert into posts (title, body, author, is_published, created_at) values("Post One", "This is post One", "Brad", 1, CURRENT_TIMESTAMP), ("Post Two", "This is post Two", "John", 1, CURRENT_TIMESTAMP);
+	```
 
 * Methods for fetching according to the data type (_Associative Array_, _Object_ and _Default: Object_)
 
@@ -130,14 +131,15 @@ insert into posts (title, body, author, is_published, created_at) values("Post O
 ### [**PREPARED STATEMENT** (Prepare & Execute)](https://youtu.be/kEW6f7Pilc4?t=1189)
 [_Documentation_](http://php.net/manual/en/pdo.prepare.php)
 
-* **UNSAFE**: This makes the database vulnerable because, as there's no separation between the _`instructions`_ and the _`actual data`_, data can be inserted directly into the database, through a `<form>`, for example.
+* **UNSAFE**: This makes the database vulnerable because, as there's no separation between the _`instructions`_ and the _`actual data`_. Data can be inserted directly into the database, through a `<form>`, for example.
 
 	```
-	// $sql will hold instructions
+	// `$sql` will hold instructions
 	$sql = "SELECT * FROM posts WHERE author = '$author'";
 	```
 
 * **FETCH MULTIPLE POSTS**
+
 	```
 	// User Input
 	$author = 'John';
@@ -146,11 +148,11 @@ insert into posts (title, body, author, is_published, created_at) values("Post O
 	* **Positional Params (_`?`_)**: Each _`?`_ should be placed in order, according to the arguments passed in, and vice-versa.
 
 		```
-		// `$sql` will hold the instructions
+		// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
 		$sql = 'SELECT * FROM posts WHERE author = ?';
-		// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+		// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument:
 		$stmt = $pdo->prepare($sql);
-		// `execute` will hold the _`actual data`_, from the database
+		// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 		$stmt->execute([$author]); // here, the named parameters are set, to receive the database arguments
 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 		$posts = $stmt->fetchAll();
@@ -159,11 +161,11 @@ insert into posts (title, body, author, is_published, created_at) values("Post O
 	* **Named Params (_`:named_param`_)**
 
 		```
-		// `$sql` will hold the instructions
+		// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
 		$sql = 'SELECT * FROM posts WHERE author = :author';
-		// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+		// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument:
 		$stmt = $pdo->prepare($sql);
-		// `execute` will hold the _`actual data`_, from the database
+		// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 		$stmt->execute(['author' => $author, 'is_published' => $is_published]); // here, the named parameters are set, to receive the database arguments
 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 		$posts = $stmt->fetchAll();
@@ -181,17 +183,75 @@ insert into posts (title, body, author, is_published, created_at) values("Post O
 * [**FETCH SINGLE POST**][21]
 
 	```
-	// `$sql` will hold the instructions
+	// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
 	$sql = 'SELECT * FROM posts WHERE id = :id';
-	// `prepare` will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+	// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
 	$stmt = $pdo->prepare($sql);
+	// `execute` is a method for the the prepared pdo, and will have the _`actual data's ID`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 	$stmt->execute(['id' => $id]);
-	// No need to passa a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+	// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 	$post = $stmt->fetch();
+	// Output:
 	echo $post->body;
  	```
 
-### [][#]
+### [GET ROW COUNT][22]
+
+```
+$stmt = $pdo->prepare('SELECT * FROM posts WHERE author = ?');
+$stmt->execute([$author]);
+// Method for an executed pdo instance..
+$postCount = $stmt->rowCount();
+// Output:
+echo $postCount;
+```
+### [INSERT DATA][23]
+
+```
+$title = 'Post Five';
+$body = 'This is post five';
+$author = 'Kevin';
+// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+$sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+$stmt = $pdo->prepare($sql);
+// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
+$stmt->execute(['title' => $title, 'body' => $body, 'author' => $author]);
+// Output:
+echo 'Post Added';
+```
+
+### [UPDATE DATA][24]
+
+```
+$id = 1;
+$body = 'This is the updated post';
+// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+$sql = 'UPDATE posts SET body = :body WHERE id = :id';
+// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+$stmt = $pdo->prepare($sql);
+// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
+$stmt->execute(['body' => $body, 'id' => $id]);
+// Output:
+echo 'Post Updated';
+```
+
+### [DELETE DATA][25]
+
+```
+$id = 3;
+
+// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+$sql = 'DELETE FROM posts WHERE id = :id';
+// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
+$stmt = $pdo->prepare($sql);
+// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
+$stmt->execute(['id' => $id]);
+// Output:
+echo 'Post Deleted';
+```
+
+### [SEARCH DATA][26]
 
 * ****
 ### [][#]
@@ -224,11 +284,11 @@ insert into posts (title, body, author, is_published, created_at) values("Post O
 [19]:https://youtu.be/kEW6f7Pilc4?t=785
 [20]:https://youtu.be/kEW6f7Pilc4?t=817
 [21]:https://youtu.be/kEW6f7Pilc4?t=1718
-[22]:
-[23]:
-[24]:
-[25]:
-[26]:
+[22]:https://youtu.be/kEW6f7Pilc4?t=1878
+[23]:https://youtu.be/kEW6f7Pilc4?t=1980
+[24]:https://youtu.be/kEW6f7Pilc4?t=2160
+[25]:https://youtu.be/kEW6f7Pilc4?t=2280
+[26]:https://youtu.be/kEW6f7Pilc4?t=2307
 [27]:
 [28]:
 [29]:
