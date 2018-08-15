@@ -129,7 +129,10 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	```
 
 ### [**PREPARED STATEMENT** (Prepare & Execute)](https://youtu.be/kEW6f7Pilc4?t=1189)
-[_Documentation_](http://php.net/manual/en/pdo.prepare.php)
+
+#### [PDO::Prepare][27] - Prepares a statement for execution and returns a statement object. Prepares an SQL statement to be executed by the PDOStatement::execute() method.
+
+#### [PDOStatement::execute][28] - Executes a prepared statement. Either **an array of input-only parameter values has to be passed**, or a PDOStatement::bindParam() and/or PDOStatement::bindValue() has to be called to bind either variables or values (respectively) to the parameter markers.
 
 * **UNSAFE**: This makes the database vulnerable because, as there's no separation between the _`instructions`_ and the _`actual data`_. Data can be inserted directly into the database, through a `<form>`, for example.
 
@@ -140,34 +143,44 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 * **FETCH MULTIPLE POSTS**
 
-	```
-	// User Input
-	$author = 'John';
-	```
+	* Configure PDO
+
+		* Set [default fetch][30] results to return an [anonymous object][31]
+			```
+			// Set default fetch mode for pdo: PDO::FETCH_OBJ
+			$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+			```
+
+		* [Disable emulation][30]
+			```
+			// Disables emulation
+			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+			```
+
+	* Set variable
+
+		```
+		// User Input
+		$author = 'John';
+		```
 
 	* **Positional Params (_`?`_)**: Each _`?`_ should be placed in order, according to the arguments passed in, and vice-versa.
 
 		```
-		// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+		// `$sql` will hold the instructions:
 		$sql = 'SELECT * FROM posts WHERE author = ?';
-		// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument:
 		$stmt = $pdo->prepare($sql);
-		// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 		$stmt->execute([$author]); // here, the named parameters are set, to receive the database arguments
-		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 		$posts = $stmt->fetchAll();
 		```
 
 	* **Named Params (_`:named_param`_)**
 
 		```
-		// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+		// `$sql` will hold the instructions:
 		$sql = 'SELECT * FROM posts WHERE author = :author';
-		// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument:
 		$stmt = $pdo->prepare($sql);
-		// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 		$stmt->execute(['author' => $author, 'is_published' => $is_published]); // here, the named parameters are set, to receive the database arguments
-		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 		$posts = $stmt->fetchAll();
 		```
 
@@ -183,13 +196,10 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 * [**FETCH SINGLE POST**][21]
 
 	```
-	// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+	// `$sql` will hold the instructions:
 	$sql = 'SELECT * FROM posts WHERE id = :id';
-	// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
 	$stmt = $pdo->prepare($sql);
-	// `execute` is a method for the the prepared pdo, and will have the _`actual data's ID`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 	$stmt->execute(['id' => $id]);
-	// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
 	$post = $stmt->fetch();
 	// Output:
 	echo $post->body;
@@ -211,11 +221,9 @@ echo $postCount;
 $title = 'Post Five';
 $body = 'This is post five';
 $author = 'Kevin';
-// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+// `$sql` will hold the instructions:
 $sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
-// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
 $stmt = $pdo->prepare($sql);
-// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 $stmt->execute(['title' => $title, 'body' => $body, 'author' => $author]);
 // Output:
 echo 'Post Added';
@@ -226,11 +234,9 @@ echo 'Post Added';
 ```
 $id = 1;
 $body = 'This is the updated post';
-// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+// `$sql` will hold the instructions:
 $sql = 'UPDATE posts SET body = :body WHERE id = :id';
-// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
 $stmt = $pdo->prepare($sql);
-// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 $stmt->execute(['body' => $body, 'id' => $id]);
 // Output:
 echo 'Post Updated';
@@ -241,11 +247,9 @@ echo 'Post Updated';
 ```
 $id = 3;
 
-// `$sql` will hold the instructions (that you would pass into the `shell`, on the mysql database):
+// `$sql` will hold the instructions:
 $sql = 'DELETE FROM posts WHERE id = :id';
-// `prepare` is a method for the pdo instance (`$pdo`), and will have the _`instructions`_ (stored in the `$sql` variable) passed in as an argument
 $stmt = $pdo->prepare($sql);
-// `execute` is a method for the the prepared pdo, and will have the _`actual data`_ from the database passed in as an argument (separates _`instructions`_ from the _`actual data`_ provided from the database):
 $stmt->execute(['id' => $id]);
 // Output:
 echo 'Post Deleted';
@@ -253,13 +257,25 @@ echo 'Post Deleted';
 
 ### [SEARCH DATA][26]
 
-* ****
-### [][#]
+```
+$search = "%f%";
+$sql = 'SELECT * FROM posts WHERE title LIKE ?';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$search]);
+$posts = $stmt->fetchAll();
 
-* ****
-### [][#]
+foreach($posts as $post){
+	echo $post->title . '<br>';
+}
+```
 
-* ****
+### [LIMIT RESULTS][29]
+
+* Configure PDO to only emulate on fail, with [PDO::ATTR_EMULATE_PREPARES][30] set to false .
+```
+// Disables emulation:
+$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+```
 
 ### Reference:
 
@@ -289,11 +305,11 @@ echo 'Post Deleted';
 [24]:https://youtu.be/kEW6f7Pilc4?t=2160
 [25]:https://youtu.be/kEW6f7Pilc4?t=2280
 [26]:https://youtu.be/kEW6f7Pilc4?t=2307
-[27]:
-[28]:
-[29]:
-[30]:
-[31]:
+[27]:http://php.net/manual/en/pdo.prepare.php
+[28]:http://php.net/manual/en/pdostatement.execute.php
+[29]:https://youtu.be/kEW6f7Pilc4?t=2490
+[30]:http://php.net/manual/en/pdo.setattribute.php
+[31]:http://php.net/manual/en/pdostatement.fetch.php
 [32]:
 [33]:
 [34]:

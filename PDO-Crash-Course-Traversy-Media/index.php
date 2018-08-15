@@ -10,8 +10,10 @@ $dsn = 'mysql:host='. $host .';dbname='. $dbname;
 // Create a PDO Instance
 $pdo = new PDO($dsn, $user, $password);
 
-// Set default fetch mode for pdo: PDO::FETCH_OBJ
+// Set default fetch mode for pdo: PDO::FETCH_OBJ:
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+// Disables emulation:
+$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	# PDO QUERY
 
@@ -53,15 +55,14 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  		$author = 'Brad';
  		$is_published = true;
  		$id = 1;
+ 		$limit = 1;
 
-/*
  		// Positional Params
- 		$sql = 'SELECT * FROM posts WHERE author = ?';
+ 		$sql = 'SELECT * FROM posts WHERE author = ? && is_published = ? LIMIT ?';
  		$stmt = $pdo->prepare($sql);
- 		$stmt->execute([$author]);
- 		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
+ 		$stmt->execute([$author, $is_published, $limit]);
  		$posts = $stmt->fetchAll();
-*/
+
 
 /*
  		// Named Params
@@ -71,12 +72,12 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
  		// No need to pass a parameter inside fetch, because the pdo fetch mode is already set it's default to object, above.
  		$posts = $stmt->fetchAll();
 */
-/*
+
  		//var_dump($posts);
 		foreach($posts as $post){
 			echo $post->title . "<br>";
 		}
-*/
+
 /*
 		// FETCH SINGLE POST
 
@@ -132,6 +133,16 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(['id' => $id]);
 echo 'Post Deleted';
 */
-
+/*
 // SEARCH DATA
 
+$search = "%f%";
+$sql = 'SELECT * FROM posts WHERE title LIKE ?';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$search]);
+$posts = $stmt->fetchAll();
+
+foreach($posts as $post){
+	echo $post->title . '<br>';
+}
+*/
