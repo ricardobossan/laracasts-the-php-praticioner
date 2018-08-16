@@ -23,11 +23,7 @@ class QueryBuilder
 		// Builds up and executes a query.
 		$statement = $this->pdo->prepare("select * from {$table}");
 
-		/**
-		 * @deprecated [do not use this one bellow]
-		 */
-		//mysql_connect();
-
+		// Executes de PDOStatemente (prepared statement)
 		$statement->execute();
 
 		// You can override how we fetch these results, with: 'fetchAll(PDO::FETCH+OBJ)' or, if you make a 'Task' class, with a 'fetchAll(PDO::FETCH_CLASS, 'Task')'.
