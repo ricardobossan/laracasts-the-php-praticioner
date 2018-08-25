@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Core;
+
 /**
  * Creates the Request class
  * @class

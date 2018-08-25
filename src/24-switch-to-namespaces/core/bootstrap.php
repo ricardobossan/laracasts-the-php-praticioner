@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\App;
+
 /**
  * Builds up our QueryBuilder
  */
