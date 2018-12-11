@@ -1,4 +1,4 @@
-# Project: <new-project>
+# Project: <new-project> 
 
 ## How to Run the App
 
