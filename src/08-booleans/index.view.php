@@ -17,6 +17,7 @@
 			<strong>Personal Responsible: </strong><?= $task['assigned_to']; ?>
 		</li>
 		<li>
+		<!-- `Ternary operators` work in PHP -->
 			<strong>Status: </strong><?= $task['completed'] ? 'Complete' : 'Incomplete'; ?>
 		</li>
 	</ul>

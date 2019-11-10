@@ -4,7 +4,7 @@ $task = [
 	'title' => 'Learn PHP, for job interview at Brasil Game Show',
 	'assigned_to' => 'Ricardo',
 	'due' => 'ASAP',
-	'completed' => false // if you used the string 'false', it would be a `truthy` value, and wouldn't serve the key/values point here
+	'completed' => false // Why booleans instead of strings? If you used the string 'false', it would be a string and, thus, a `truthy` value, and wouldn't serve the key/values point here
 ];
 
 require 'index.view.php';
