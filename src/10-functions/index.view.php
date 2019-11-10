@@ -1,3 +1,5 @@
+<!--  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +9,9 @@
 </head>
 <body>
 	<ul>
-		<li><?=1animals ?></li>
+	<?php foreach($animals as $animal) : ?>
+		<li><?=$animal ?></li>
+	<?php endforeach; ?>
 	</ul>
 </body>
 </html>

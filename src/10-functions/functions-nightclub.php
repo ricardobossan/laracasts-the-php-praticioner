@@ -1,5 +1,6 @@
 <?php
 
+// Lesson 10's code
 function checksAge($array) {
 	foreach($array as $elem) {
 		if($elem >= 21) {
