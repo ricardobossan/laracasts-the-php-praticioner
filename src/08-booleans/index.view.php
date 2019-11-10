@@ -7,6 +7,14 @@
 </head>
 <body>
 	<ul>
+<!-- `ucwords()`makes the words first letter upper case. -->
+<!-- 
+	<?php foreach($task as $heading => $value) : ?>
+		<li>
+			<strong> <?= ucwords($heading); ?>: </strong> <?= $value; ?>
+		</li>
+	<?php endforeach; ?>
+ -->
 		<li>
 			<strong>Name: </strong><?= $task['title']; ?>
 		</li>
