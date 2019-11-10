@@ -8,6 +8,10 @@
 </head>
 <body>
 
+  <!--
+    `foreach`, a `keyword`, is a php construct
+    For each element in this iterable object (in this case, an array called `$names`), we're calling it a certain variable (in this case called `$name`), and running some code.
+  -->
   <h2>Shorthand Method</h2>
   <ul>
     <?php foreach ($names as $name) : ?>
