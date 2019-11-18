@@ -8,9 +8,11 @@ function connectToDb()
 {
 	try {
 		/**
-		 * @desc Instance of the 'Php Data Objects' - PDO class. Offers and interface to connects to your databases
+		 * @desc Instance of the 'Php Data Objects' - PDO class. Offers and interface to connect to your databases
 		 * @instance
-		 * @arg {string} DSN - Connection string. Declares what kind of database are you using (SQLite, mySQL, etc.).
+		 * @arg {string} DSN - A `connection string`, which consists of: `<database type>:host=<host(eg localhost port)>;dbname=<database name>`
+		 * @arg {string} user name
+		 * @arg {string} password
 		 */
 		return new PDO('mysql:host=127.0.0.1;dbname=mytodo', 'root', '');
 	} catch (PDOException $e) {
@@ -27,14 +29,22 @@ function fetchAllTasks($pdo)
 $statement = $pdo->prepare('select * from todos');
 
 /**
- * @deprecated [do not use this one bellow]
+ * @deprecated [do not use this one bellow. Use PDO, instead.]
  */
 //mysql_connect();
 
+// Do something to the prepared statement.
 $statement->execute();
 
+// fetch the query results.
+//return $statement->fetchAll();
+
 // You can override how we fetch these results, with: 'fetchAll(PDO::FETCH+OBJ)' or, if you make a 'Task' class, with a 'fetchAll(PDO::FETCH_CLASS, 'Task')'.
+
 // In this case, you'll get an associative array.
+/* return $statement->fetchAll(PDO::FETCH_OBJ);
+*/
+
 return $statement->fetchAll(PDO::FETCH_CLASS, 'Task');
 }
 

@@ -7,4 +7,6 @@ $pdo = connectToDb();
 
 $tasks = fetchAllTasks($pdo);
 
+dd($tasks);
+
 require 'index.view.php';
